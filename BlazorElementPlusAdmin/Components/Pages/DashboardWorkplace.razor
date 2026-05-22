@@ -1,0 +1,94 @@
+@page "/dashboard/workplace"
+
+<PageTitle>Workplace - Element Plus Admin</PageTitle>
+
+<section class="workplace-hero">
+    <div>
+        <ElTag Type="@TagType.Info" Theme="@TagTheme.Plain">Workplace</ElTag>
+        <h1>Good morning, admin</h1>
+        <p>Here is the operational snapshot for the Blazor native admin shell.</p>
+    </div>
+    <ElButton Type="@ButtonType.Primary" Icon="el-icon-plus">New Project</ElButton>
+</section>
+
+<section class="dashboard-grid">
+    <ElCard Shadow="@ShadowShowType.Never">
+        <Header>
+            <strong>Project Progress</strong>
+        </Header>
+        <Body>
+            <div class="work-list">
+                @foreach (var item in WorkItems)
+                {
+                    <div class="work-item">
+                        <div>
+                            <strong>@item.Title</strong>
+                            <small>@item.Owner - @item.Status</small>
+                        </div>
+                        <div class="work-progress"><span style="@($"width:{item.Progress}%")"></span></div>
+                        <ElTag Type="@(item.Progress > 80 ? TagType.Success : TagType.Info)" Theme="@TagTheme.Plain" Size="@TagSize.Small">@item.Progress%</ElTag>
+                    </div>
+                }
+            </div>
+        </Body>
+    </ElCard>
+
+    <ElCard Shadow="@ShadowShowType.Never">
+        <Header>
+            <strong>Team</strong>
+        </Header>
+        <Body>
+            <div class="team-grid">
+                @foreach (var member in Team)
+                {
+                    <div class="team-member">
+                        <span>@member[0]</span>
+                        <strong>@member</strong>
+                        <small>Element-Blazor</small>
+                    </div>
+                }
+            </div>
+        </Body>
+    </ElCard>
+</section>
+
+<section class="dashboard-grid is-bottom">
+    <ElCard Shadow="@ShadowShowType.Never">
+        <Header>
+            <strong>Shortcuts</strong>
+        </Header>
+        <Body>
+            <div class="quick-grid">
+                <ElButton Plain="true" Icon="el-icon-data-analysis">Analysis</ElButton>
+                <ElButton Plain="true" Icon="el-icon-menu">Routes</ElButton>
+                <ElButton Plain="true" Icon="el-icon-setting">Theme</ElButton>
+                <ElButton Plain="true" Icon="el-icon-warning">Errors</ElButton>
+            </div>
+        </Body>
+    </ElCard>
+
+    <ElCard Shadow="@ShadowShowType.Never">
+        <Header>
+            <strong>Notice</strong>
+        </Header>
+        <Body>
+            <div class="notice-list">
+                <p><ElTag Type="@TagType.Success" Theme="@TagTheme.Plain" Size="@TagSize.Small">Done</ElTag> .NET 10 Blazor host created.</p>
+                <p><ElTag Type="@TagType.Info" Theme="@TagTheme.Plain" Size="@TagSize.Small">MVP</ElTag> Admin Shell pages use Element-Blazor El* controls.</p>
+                <p><ElTag Type="@TagType.Warning" Theme="@TagTheme.Plain" Size="@TagSize.Small">Next</ElTag> Wire mock RBAC and CRUD examples.</p>
+            </div>
+        </Body>
+    </ElCard>
+</section>
+
+@code {
+    private static readonly WorkItem[] WorkItems =
+    [
+        new("Admin Shell MVP", "Archer", "Review", 92),
+        new("Route model", "Betty", "Done", 100),
+        new("Settings panel", "Chris", "In progress", 76),
+        new("Mock RBAC", "Dana", "Pending", 38)
+    ];
+
+    private static readonly string[] Team = ["Archer", "Betty", "Chris", "Dana", "Evan", "Faye"];
+}

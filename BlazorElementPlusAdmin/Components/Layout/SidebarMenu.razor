@@ -1,0 +1,56 @@
+@inject AdminShellState ShellState
+
+<aside class="admin-sidebar">
+    <div class="admin-logo">
+        <span class="admin-logo__mark">E</span>
+        @if (!ShellState.SidebarCollapsed)
+        {
+            <span class="admin-logo__text">Element Plus Admin</span>
+        }
+    </div>
+    <ElMenu Mode="@MenuMode.Vertical"
+            CanCollapse="false"
+            BackgroundColor="transparent"
+            TextColor="var(--admin-menu-text)"
+            ActiveTextColor="var(--admin-primary)"
+            HoverColor="var(--admin-menu-hover)">
+        @foreach (var route in AdminRouteCatalog.Routes.Where(route => !route.Hidden))
+        {
+            @RenderRoute(route)
+        }
+    </ElMenu>
+</aside>
+
+@code {
+    private RenderFragment RenderRoute(AdminRoute route) => builder =>
+    {
+        if (route.Children.Any(child => !child.Hidden))
+        {
+            builder.OpenComponent<ElSubMenu>(0);
+            builder.AddAttribute(1, nameof(ElSubMenu.Label), ShellState.SidebarCollapsed ? string.Empty : route.Title);
+            builder.AddAttribute(2, nameof(ElSubMenu.Icon), route.Icon);
+            builder.AddAttribute(3, nameof(ElSubMenu.ChildContent), (RenderFragment)(childBuilder =>
+            {
+                var sequence = 0;
+                foreach (var child in route.Children.Where(child => !child.Hidden))
+                {
+                    childBuilder.AddContent(sequence++, RenderRoute(child));
+                }
+            }));
+            builder.CloseComponent();
+            return;
+        }
+
+        builder.OpenComponent<ElMenuItem>(4);
+        builder.AddAttribute(5, nameof(ElMenuItem.Route), route.Path);
+        builder.AddAttribute(6, nameof(ElMenuItem.Icon), route.Icon);
+        builder.AddAttribute(7, nameof(ElMenuItem.ChildContent), (RenderFragment)(itemBuilder =>
+        {
+            if (!ShellState.SidebarCollapsed)
+            {
+                itemBuilder.AddContent(8, route.Title);
+            }
+        }));
+        builder.CloseComponent();
+    };
+}

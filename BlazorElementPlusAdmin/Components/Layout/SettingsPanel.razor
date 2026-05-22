@@ -1,0 +1,46 @@
+@inject AdminShellState ShellState
+
+<aside class="settings-panel @(ShellState.SettingsOpen ? "is-open" : string.Empty)">
+    <div class="settings-panel__header">
+        <strong>Project Settings</strong>
+        <ElButton Text="true" Icon="el-icon-close" OnClick="@(_ => ShellState.ToggleSettings())" AriaLabel="Close settings" />
+    </div>
+
+    <div class="settings-panel__section">
+        <span class="settings-panel__label">Theme color</span>
+        <div class="color-swatches">
+            @foreach (var color in Colors)
+            {
+                <button class="color-swatch @(ShellState.ThemeColor == color ? "is-active" : string.Empty)"
+                        style="@($"background:{color}")"
+                        title="@color"
+                        @onclick="@(() => ShellState.SetThemeColor(color))">
+                </button>
+            }
+        </div>
+    </div>
+
+    <SettingSwitch Label="Dark mode" Value="@ShellState.DarkMode" OnToggle="@ShellState.ToggleDarkMode" />
+    <SettingSwitch Label="Breadcrumb" Value="@ShellState.ShowBreadcrumb" OnToggle="@ShellState.ToggleBreadcrumb" />
+    <SettingSwitch Label="TagsView" Value="@ShellState.ShowTagsView" OnToggle="@ShellState.ToggleTagsView" />
+    <SettingSwitch Label="Footer" Value="@ShellState.ShowFooter" OnToggle="@ShellState.ToggleFooter" />
+
+    <div class="settings-panel__section">
+        <span class="settings-panel__label">Component size</span>
+        <div class="size-picker">
+            @foreach (var size in Sizes)
+            {
+                <ElButton Type="@(ShellState.Size == size ? ButtonType.Primary : ButtonType.Default)"
+                          Plain="@(ShellState.Size != size)"
+                          Size="@ButtonSize.Small"
+                          OnClick="@(_ => ShellState.SetSize(size))">@size</ElButton>
+            }
+        </div>
+    </div>
+</aside>
+
+@code {
+    private static readonly string[] Colors = ["#409eff", "#67c23a", "#e6a23c", "#f56c6c", "#626aef"];
+
+    private static readonly string[] Sizes = ["large", "default", "small"];
+}

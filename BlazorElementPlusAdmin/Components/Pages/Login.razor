@@ -1,0 +1,74 @@
+@page "/login"
+@layout EmptyLayout
+@inject AdminShellState ShellState
+@inject NavigationManager Navigation
+
+<PageTitle>Login - Element Plus Admin</PageTitle>
+
+<main class="login-page">
+    <section class="login-visual">
+        <div class="login-visual__brand">
+            <span>Element Plus Admin</span>
+            <strong>Blazor native shell</strong>
+        </div>
+        <div class="login-visual__panel">
+            <p>Dashboard Analysis</p>
+            <div class="login-chart">
+                @foreach (var value in new[] { 42, 78, 64, 88, 72, 96, 80 })
+                {
+                    <span style="@($"height:{value}%")"></span>
+                }
+            </div>
+        </div>
+    </section>
+    <section class="login-card">
+        <ElCard Shadow="@ShadowShowType.Never" BodyCls="login-card__body">
+            <Body>
+                <h1>Login</h1>
+                <p class="muted">Use admin/admin for the local MVP mock.</p>
+                <ElForm Model="this" LabelPosition="@LabelAlign.Top">
+                    <ElFormItem TValue="string" Label="Account">
+                        <ElInput TValue="string" Placeholder="admin" Clearable="true" PrefixIcon="el-icon-user" @bind-Value="Account" />
+                    </ElFormItem>
+                    <ElFormItem TValue="string" Label="Password">
+                        <ElInput TValue="string" Type="@InputType.Password" Placeholder="admin" ShowPassword="true" PrefixIcon="el-icon-lock" @bind-Value="Password" />
+                    </ElFormItem>
+                    @if (!string.IsNullOrWhiteSpace(ErrorText))
+                    {
+                        <ElTag Type="@TagType.Danger" Theme="@TagTheme.Plain">@ErrorText</ElTag>
+                    }
+                    <div class="login-card__actions">
+                        <ElButton Type="@ButtonType.Primary" OnClick="@(_ => Submit())">Login</ElButton>
+                        <ElButton Plain="true" OnClick="@(_ => FillMock())">Use mock</ElButton>
+                    </div>
+                </ElForm>
+            </Body>
+        </ElCard>
+    </section>
+</main>
+
+@code {
+    private string Account { get; set; } = "admin";
+
+    private string Password { get; set; } = "admin";
+
+    private string ErrorText { get; set; } = string.Empty;
+
+    private void FillMock()
+    {
+        Account = "admin";
+        Password = "admin";
+        ErrorText = string.Empty;
+    }
+
+    private void Submit()
+    {
+        if (ShellState.Login(Account, Password))
+        {
+            Navigation.NavigateTo("/dashboard/analysis");
+            return;
+        }
+
+        ErrorText = "Invalid local mock account.";
+    }
+}

@@ -1,0 +1,24 @@
+@page "/Error"
+@page "/error/500"
+@using System.Diagnostics
+@inject NavigationManager Navigation
+
+<PageTitle>500</PageTitle>
+
+<ErrorState StatusCode="500"
+            Title="Server error"
+            Message="@($"The admin shell caught an unexpected request state. Request ID: {RequestId}")"
+            ActionText="Back to dashboard"
+            OnAction="@(() => Navigation.NavigateTo("/dashboard/analysis"))" />
+
+@code {
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    private string RequestId { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        RequestId = Activity.Current?.Id ?? HttpContext?.TraceIdentifier ?? "local-mvp";
+    }
+}

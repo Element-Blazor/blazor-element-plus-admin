@@ -19,3 +19,29 @@ target is feature parity, not a Vue runtime wrapper.
 - Source license: MIT, copyright Archer
 
 See [ROADMAP.md](ROADMAP.md) for the replication plan.
+
+## MVP Host
+
+The current MVP is a .NET 10 Blazor Web App in `BlazorElementPlusAdmin`.
+It references the local Element-Blazor component project from the parent
+repository:
+
+```powershell
+cd BlazorElementPlusAdmin
+dotnet run
+```
+
+Open `http://localhost:5072` or the URL printed by `dotnet run`.
+
+Implemented MVP routes:
+
+- `/login` with local `admin/admin` mock login
+- `/dashboard/analysis`
+- `/dashboard/workplace`
+- `/personal/personal-center`
+- `/error/403`
+- `/error/404`
+- `/error/500`
+
+The app uses Blazor components and Element-Blazor `El*` controls only. It does
+not embed Vue, Vite, Pinia, npm packages, or a Vue runtime.

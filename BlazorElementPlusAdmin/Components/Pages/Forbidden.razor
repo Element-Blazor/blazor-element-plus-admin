@@ -1,0 +1,10 @@
+@page "/error/403"
+@inject NavigationManager Navigation
+
+<PageTitle>403</PageTitle>
+
+<ErrorState StatusCode="403"
+            Title="Permission denied"
+            Message="The mock account does not have permission to open this route."
+            ActionText="Back to workplace"
+            OnAction="@(() => Navigation.NavigateTo("/dashboard/workplace"))" />

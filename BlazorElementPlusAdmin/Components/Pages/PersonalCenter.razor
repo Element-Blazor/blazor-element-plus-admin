@@ -1,0 +1,48 @@
+@page "/personal/personal-center"
+
+<PageTitle>Personal Center</PageTitle>
+
+<section class="profile-page">
+    <ElCard Shadow="@ShadowShowType.Never" BodyCls="profile-card__body">
+        <Body>
+            <div class="profile-avatar">A</div>
+            <h1>admin</h1>
+            <p>Product operator / Element-Blazor maintainer</p>
+            <div class="profile-tags">
+                <ElTag Type="@TagType.Success" Theme="@TagTheme.Plain">Blazor</ElTag>
+                <ElTag Type="@TagType.Info" Theme="@TagTheme.Plain">Element Plus</ElTag>
+                <ElTag Type="@TagType.Warning" Theme="@TagTheme.Plain">Admin Shell</ElTag>
+            </div>
+        </Body>
+    </ElCard>
+    <ElCard Shadow="@ShadowShowType.Never">
+        <Header>
+            <strong>Account Profile</strong>
+        </Header>
+        <Body>
+            <ElForm LabelWidth="120" LabelPosition="@LabelAlign.Right">
+                <ElFormItem TValue="string" Label="Display name">
+                    <ElInput TValue="string" Value="@DisplayName" Clearable="true" />
+                </ElFormItem>
+                <ElFormItem TValue="string" Label="Email">
+                    <ElInput TValue="string" Value="@Email" Clearable="true" />
+                </ElFormItem>
+                <ElFormItem TValue="string" Label="Bio">
+                    <ElInput TValue="string" Type="@InputType.Textarea" Value="@Bio" Autosize="true" />
+                </ElFormItem>
+                <ElFormActionItem>
+                    <ElButton Type="@ButtonType.Primary">Save</ElButton>
+                    <ElButton Plain="true">Reset</ElButton>
+                </ElFormActionItem>
+            </ElForm>
+        </Body>
+    </ElCard>
+</section>
+
+@code {
+    private const string DisplayName = "admin";
+
+    private const string Email = "admin@example.com";
+
+    private const string Bio = "Building a Blazor native Element Plus admin shell.";
+}

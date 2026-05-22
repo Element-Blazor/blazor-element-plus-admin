@@ -1,0 +1,9 @@
+@inject AdminShellState ShellState
+
+<ElBreadcrumb>
+    <ElBreadcrumbItem>Home</ElBreadcrumbItem>
+    @foreach (var route in AdminRouteCatalog.Breadcrumb(ShellState.CurrentPath))
+    {
+        <ElBreadcrumbItem>@route.Title</ElBreadcrumbItem>
+    }
+</ElBreadcrumb>

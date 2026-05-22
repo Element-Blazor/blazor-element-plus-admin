@@ -1,0 +1,26 @@
+@inject AdminShellState ShellState
+@inject NavigationManager Navigation
+
+<header class="admin-header">
+    <div class="admin-header__left">
+        <ElButton Text="true" Icon="el-icon-s-fold" OnClick="@(_ => ShellState.ToggleSidebar())" AriaLabel="Toggle sidebar" />
+        @if (ShellState.ShowBreadcrumb)
+        {
+            <BreadcrumbTrail />
+        }
+    </div>
+    <div class="admin-header__right">
+        <ElButton Text="true" Icon="el-icon-refresh" OnClick="@(_ => Navigation.NavigateTo(ShellState.CurrentPath, forceLoad: false))">Refresh</ElButton>
+        <ElButton Text="true" Icon="el-icon-setting" OnClick="@(_ => ShellState.ToggleSettings())">Settings</ElButton>
+        <ElButton Type="@ButtonType.Primary" Plain="true" Size="@ButtonSize.Small" OnClick="Logout">Logout</ElButton>
+        <span class="admin-avatar">admin</span>
+    </div>
+</header>
+
+@code {
+    private void Logout()
+    {
+        ShellState.Logout();
+        Navigation.NavigateTo("/login");
+    }
+}

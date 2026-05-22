@@ -1,0 +1,11 @@
+@page "/not-found"
+@page "/error/404"
+@inject NavigationManager Navigation
+
+<PageTitle>404</PageTitle>
+
+<ErrorState StatusCode="404"
+            Title="Page not found"
+            Message="The page you requested does not exist in the Blazor admin route map."
+            ActionText="Back to dashboard"
+            OnAction="@(() => Navigation.NavigateTo("/dashboard/analysis"))" />

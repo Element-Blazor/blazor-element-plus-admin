@@ -1,0 +1,19 @@
+<div class="settings-panel__row">
+    <span>@Label</span>
+    <ElSwitch TValue="bool"
+              ActiveValue="true"
+              InactiveValue="false"
+              Value="@Value"
+              OnChanged="@(_ => OnToggle.Invoke())" />
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public Action OnToggle { get; set; } = () => { };
+}

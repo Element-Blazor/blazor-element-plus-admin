@@ -1,0 +1,46 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject AdminShellState ShellState
+
+<div class="@ShellClass" style="@ThemeStyle">
+    <SidebarMenu />
+    <section class="admin-main">
+        <ToolHeader />
+        @if (ShellState.ShowTagsView)
+        {
+            <TagsView />
+        }
+        <main class="admin-content">
+            @Body
+        </main>
+        @if (ShellState.ShowFooter)
+        {
+            <footer class="admin-footer">
+                Blazor Element Plus Admin MVP
+            </footer>
+        }
+    </section>
+    <SettingsPanel />
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">x</span>
+</div>
+
+@code {
+    private string ShellClass => $"admin-shell {(ShellState.SidebarCollapsed ? "is-collapsed" : string.Empty)} {(ShellState.DarkMode ? "is-dark" : string.Empty)}";
+
+    private string ThemeStyle => $"--admin-primary:{ShellState.ThemeColor}";
+
+    protected override void OnInitialized()
+    {
+        ShellState.Changed += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ShellState.Changed -= StateHasChanged;
+    }
+}

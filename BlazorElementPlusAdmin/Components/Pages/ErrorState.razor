@@ -1,0 +1,33 @@
+<section class="error-state">
+    <ElCard Shadow="@ShadowShowType.Never" BodyCls="error-state__body">
+        <Body>
+            <div class="error-state__code">@StatusCode</div>
+            <h1>@Title</h1>
+            <p>@Message</p>
+            <div class="error-state__actions">
+                <ElButton Type="@ButtonType.Primary" OnClick="@(_ => OnAction.Invoke())">@ActionText</ElButton>
+                <ElButton Plain="true" OnClick="@(_ => SecondaryAction.Invoke())">Stay here</ElButton>
+            </div>
+        </Body>
+    </ElCard>
+</section>
+
+@code {
+    [Parameter]
+    public string StatusCode { get; set; } = "404";
+
+    [Parameter]
+    public string Title { get; set; } = "Error";
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public string ActionText { get; set; } = "Back";
+
+    [Parameter]
+    public Action OnAction { get; set; } = () => { };
+
+    [Parameter]
+    public Action SecondaryAction { get; set; } = () => { };
+}

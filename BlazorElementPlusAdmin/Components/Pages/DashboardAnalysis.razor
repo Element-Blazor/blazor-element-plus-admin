@@ -1,0 +1,120 @@
+@page "/dashboard/analysis"
+
+<PageTitle>Analysis - Element Plus Admin</PageTitle>
+
+<section class="page-heading">
+    <div>
+        <ElTag Type="@TagType.Success" Theme="@TagTheme.Plain">Analysis</ElTag>
+        <h1>Dashboard Analysis</h1>
+    </div>
+    <ElButton Type="@ButtonType.Primary" Icon="el-icon-download">Export</ElButton>
+</section>
+
+<section class="metric-grid">
+    @foreach (var metric in Metrics)
+    {
+        <MetricPanel Metric="@metric" />
+    }
+</section>
+
+<section class="dashboard-grid">
+    <ElCard Shadow="@ShadowShowType.Never" BodyCls="chart-card__body">
+        <Header>
+            <div class="card-header">
+                <strong>Revenue Trend</strong>
+                <ElTag Type="@TagType.Info" Theme="@TagTheme.Plain">7 days</ElTag>
+            </div>
+        </Header>
+        <Body>
+            <SimpleChart Title="Revenue trend" Values="@RevenueTrend" />
+        </Body>
+    </ElCard>
+
+    <ElCard Shadow="@ShadowShowType.Never" BodyCls="analysis-list__body">
+        <Header>
+            <div class="card-header">
+                <strong>Conversion Funnel</strong>
+                <ElButton Text="true" Size="@ButtonSize.Small">Details</ElButton>
+            </div>
+        </Header>
+        <Body>
+            @foreach (var item in Funnel)
+            {
+                <div class="funnel-row">
+                    <span>@item.Label</span>
+                    <strong>@item.Value</strong>
+                    <div class="funnel-bar"><span style="@($"width:{item.Width}%")"></span></div>
+                </div>
+            }
+        </Body>
+    </ElCard>
+</section>
+
+<section class="dashboard-grid is-bottom">
+    <ElCard Shadow="@ShadowShowType.Never">
+        <Header>
+            <strong>Latest Activities</strong>
+        </Header>
+        <Body>
+            <div class="activity-list">
+                @foreach (var item in Activities)
+                {
+                    <div class="activity-item">
+                        <span class="activity-avatar">@item.Actor[0]</span>
+                        <p><strong>@item.Actor</strong> @item.Action <b>@item.Target</b></p>
+                        <small>@item.Time</small>
+                    </div>
+                }
+            </div>
+        </Body>
+    </ElCard>
+
+    <ElCard Shadow="@ShadowShowType.Never">
+        <Header>
+            <strong>Quick Links</strong>
+        </Header>
+        <Body>
+            <div class="quick-grid">
+                @foreach (var item in QuickLinks)
+                {
+                    <ElButton Plain="true" Icon="@item.Icon">@item.Label</ElButton>
+                }
+            </div>
+        </Body>
+    </ElCard>
+</section>
+
+@code {
+    private static readonly MetricCard[] Metrics =
+    [
+        new("Visits", "126,560", "+12.4%", "el-icon-view", "#409eff"),
+        new("Messages", "8,846", "+7.8%", "el-icon-message", "#67c23a"),
+        new("Orders", "2,240", "-1.2%", "el-icon-shopping-cart-full", "#e6a23c"),
+        new("Revenue", "$98,760", "+16.9%", "el-icon-money", "#f56c6c")
+    ];
+
+    private static readonly int[] RevenueTrend = [42, 58, 52, 76, 68, 91, 84, 96, 88, 100];
+
+    private static readonly (string Label, string Value, int Width)[] Funnel =
+    [
+        ("Impressions", "82%", 82),
+        ("Clicks", "64%", 64),
+        ("Trials", "47%", 47),
+        ("Orders", "31%", 31)
+    ];
+
+    private static readonly ActivityItem[] Activities =
+    [
+        new("Archer", "published", "Analysis dashboard", "2 min ago"),
+        new("Betty", "reviewed", "permission matrix", "18 min ago"),
+        new("Chris", "closed", "layout shell MVP", "42 min ago")
+    ];
+
+    private static readonly QuickLink[] QuickLinks =
+    [
+        new("Workplace", "el-icon-office-building", "/dashboard/workplace"),
+        new("Users", "el-icon-user", "/authorization/user"),
+        new("Settings", "el-icon-setting", "/settings"),
+        new("Docs", "el-icon-document", "/docs")
+    ];
+}

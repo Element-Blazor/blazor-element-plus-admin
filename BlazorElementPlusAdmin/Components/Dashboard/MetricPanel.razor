@@ -1,0 +1,19 @@
+<ElCard Shadow="@ShadowShowType.Never" BodyCls="metric-panel__body">
+    <Body>
+        <div class="metric-panel">
+            <span class="metric-panel__icon" style="@($"background:{Metric.Accent}")">
+                <i class="@Metric.Icon"></i>
+            </span>
+            <div>
+                <p>@Metric.Label</p>
+                <strong>@Metric.Value</strong>
+                <small>@Metric.Trend</small>
+            </div>
+        </div>
+    </Body>
+</ElCard>
+
+@code {
+    [Parameter]
+    public MetricCard Metric { get; set; } = new("Metric", "0", "0%", "el-icon-data-line", "#409eff");
+}

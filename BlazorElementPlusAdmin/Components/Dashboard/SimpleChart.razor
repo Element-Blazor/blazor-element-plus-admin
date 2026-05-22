@@ -1,0 +1,14 @@
+<div class="simple-chart" aria-label="@Title">
+    @foreach (var value in Values)
+    {
+        <span style="@($"height:{value}%")"></span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Chart";
+
+    [Parameter]
+    public IReadOnlyList<int> Values { get; set; } = [42, 64, 58, 76, 69, 88, 73];
+}

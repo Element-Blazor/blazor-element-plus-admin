@@ -1,0 +1,16 @@
+@inject AdminShellState ShellState
+@inject NavigationManager Navigation
+
+<div class="tags-view">
+    @foreach (var tag in ShellState.Tags)
+    {
+        var active = AdminRouteCatalog.Normalize(ShellState.CurrentPath) == tag.Path;
+        <button class="tags-view__item @(active ? "is-active" : string.Empty)" @onclick="@(() => Navigation.NavigateTo(tag.Path))">
+            <span>@tag.Title</span>
+            @if (!tag.Affix)
+            {
+                <span class="tags-view__close" @onclick:stopPropagation="true" @onclick="@(() => ShellState.CloseTag(tag.Path))">x</span>
+            }
+        </button>
+    }
+</div>
